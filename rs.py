@@ -42,3 +42,5 @@ def server():
         data = csockid.recv(1024)
         if not data: break
         print("[RS]: received data from client")
+        rs.send(data.encode())
+        print("[RS]: sent data to servers")
