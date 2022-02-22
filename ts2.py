@@ -24,7 +24,7 @@ def ts1():
 
     #populate dictionary with hostnames and ip addresses
     dictionary = dict()
-    file = open('PROJ2-DNSTS1.txt', 'r')
+    file = open('PROJ2-DNSTS2.txt', 'r')
     list = file.read().split()
     index = 1
     key = ""
