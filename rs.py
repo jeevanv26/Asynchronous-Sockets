@@ -6,7 +6,7 @@ import select
 
 def server():
     try:
-        ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        rs= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         TS1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         TS2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("[RS]: Server socket created")
@@ -18,18 +18,18 @@ def server():
     TS1port = 50011
     TS1host_addr = socket.gethostbyname(socket.gethostname()) #local host name
     TS1_binding = (TS1host_addr, TS1port)
-    TSI.connect(TS1_binding)
+    rs.connect(TS1_binding)
 
     TS2port = 50012
     TS2host_addr = socket.gethostbyname(socket.gethostname()) #local host name
     TS2_binding = (TS2host_addr, TS2port)
-    TS2.connect(TS2_binding)
+    rs.connect(TS2_binding)
 
 
     server_binding = ('', 50010)
-    ss.setblocking(0)
-    ss.bind(server_binding)
-    ss.listen(2)
+    rs.setblocking(0)
+    rs.bind(server_binding)
+    rs.listen(2)
     host = socket.gethostname() #local host name
     localhost_ip = (socket.gethostbyname(host))
     csockid, addr = ss.accept()
