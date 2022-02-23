@@ -1,5 +1,6 @@
 import socket
 import select
+import sys
 
 
 def server():
@@ -12,8 +13,8 @@ def server():
         exit()
 
 
-    server_binding = ('', 50010)
-    rs.setblocking(0)
+    server_binding = ('', 50021)
+    #rs.setblocking(0)
     rs.bind(server_binding)
     rs.listen(2)
     host = socket.gethostname() #local host name
@@ -22,7 +23,7 @@ def server():
 
     print("[RS]: Server host name is {}".format(host))
     print("[RS]: Server IP address is {}".format(localhost_ip))
-    print ("[RS]: Got a connection request from a client at {}".format(addr)
+    print("[RS]: Got a connection request from a client at {}".format(addr))
 
     # Define the port on which you want to connect to the server
     TS1port = 50011
@@ -39,17 +40,32 @@ def server():
 
     while(True):
         data = csockid.recv(1024)
+        #data = csockid.recv(1024)
         if not data: break
-        print("[RS]: received data from client")
+        print("[RS]: received data from client {}".format(data))
         ts1.send(data.encode())
         ts2.send(data.encode())
-        readable, writable, error = select.select(sockets, [], [], 5)
-        for r in readable:
-            if r is ts1:
-                csockid.send(ts1.recv(1024).encode())
-            elif r is ts2:
-                csockid.send(ts2.recv(1024).encode())
-            else:
-                timeout = "TIMEOUT"
-                csockid.send(timeout.encode())
-        print(" sent data to servers")
+        readable, writable, errors = select.select(sockets,[], [], 7)
+        print(readable)
+        if readable:
+            for r in readable:
+                if r is ts1:
+                    csockid.send(ts1.recv(1024))
+                elif r is ts2:
+                    csockid.send(ts2.recv(1024))
+
+        for s in errors:
+            # Stop listening for input on the connection
+            inputs.remove(s)
+            if s in outputs:
+                outputs.remove(s)
+            s.close()
+            timeout = "TIMEOUT"
+            csockid.send(timeout)
+            print('it should timeout')
+
+
+
+
+if __name__ == '__main__':
+    server()
