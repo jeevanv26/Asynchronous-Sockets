@@ -1,6 +1,7 @@
 import threading
 import time
 import random
+import sys
 
 import socket
 
@@ -12,16 +13,6 @@ def ts1():
         print('socket open error: {}\n'.format(err))
         exit()
 
-    ts1_binding = ('', 50011)
-    ts1.bind(ts1_binding)
-    ts1.listen(1)
-    host = socket.gethostname()
-    print("[TS2]: Server host name is {}".format(host))
-    localhost_ip = (socket.gethostbyname(host))
-    print("[TS2]: Server IP address is {}".format(localhost_ip))
-    csockid, addr = ts1.accept()
-    print ("[TS2]: Got a connection request from a root at {}".format(addr))
-
     #populate dictionary with hostnames and ip addresses
     dictionary = dict()
     file = open('PROJ2-DNSTS1.txt', 'r')
@@ -29,7 +20,7 @@ def ts1():
     index = 1
     key = ""
     value = ""
-    for(i in list):
+    for i in list:
         if(index % 3 == 1):
             key = i ;
         elif(index % 3 == 2 ):
@@ -37,19 +28,35 @@ def ts1():
         else:
             dictionary[key] = key + value + i
 
-        index++;
+        index+=1
 
-    
+
+    ts1_binding = ('', 50011)
+    ts1.bind(ts1_binding)
+    ts1.listen(1)
+    host = socket.gethostname()
+    print("[TS1]: Server host name is {}".format(host))
+    localhost_ip = (socket.gethostbyname(host))
+    print("[TS1]: Server IP address is {}".format(localhost_ip))
+    csockid, addr = ts1.accept()
+    print ("[TS1]: Got a connection request from a root at {}".format(addr))
+
+
+
     #receive data from root server and send back ip if exists
+    result=''
     while(True):
         data = csockid.recv(1024)
         if not data: break
         print("[TS1]: received data from root server")
-        if(data in dictionary):
-            csockid.send(dictionary[data].encode('utf-8'))
 
+        for key, value in dictionary.items():
+            if data == key:
+                csockid.send(value.encode('utf-8'))
 
 
     ts1.close()
     exit()
 
+if __name__ == '__main__':
+    ts1()
