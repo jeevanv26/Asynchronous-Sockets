@@ -18,7 +18,7 @@ def server():
     rs.listen(2)
     host = socket.gethostname() #local host name
     localhost_ip = (socket.gethostbyname(host))
-    csockid, addr = ss.accept()
+    csockid, addr = rs.accept()
 
     print("[RS]: Server host name is {}".format(host))
     print("[RS]: Server IP address is {}".format(localhost_ip))
@@ -34,9 +34,8 @@ def server():
     TS2host_addr = socket.gethostbyname(socket.gethostname()) #local host name
     TS2_binding = (TS2host_addr, TS2port)
     ts2.connect(TS2_binding)
+    sockets = [ts1, ts2]
 
-
-   
 
     while(True):
         data = csockid.recv(1024)
@@ -44,4 +43,13 @@ def server():
         print("[RS]: received data from client")
         ts1.send(data.encode())
         ts2.send(data.encode())
+        readable, writable, error = select.select(sockets, [], [], 5)
+        for r in readable:
+            if r is ts1:
+                csockid.send(ts1.recv(1024).encode())
+            elif r is ts2:
+                csockid.send(ts2.recv(1024).encode())
+            else:
+                timeout = "TIMEOUT"
+                csockid.send(timeout.encode())
         print(" sent data to servers")
