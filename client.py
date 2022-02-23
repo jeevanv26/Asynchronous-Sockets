@@ -1,5 +1,8 @@
 import socket
 import time
+import sys
+
+print(sys.argv)
 
 def client():
     try:
@@ -10,7 +13,7 @@ def client():
         exit()
 
     # Define the port on which you want to connect to the server
-    port = 50010
+    port = 50014
     host_addr = socket.gethostbyname(socket.gethostname()) #local host name
 
     # connect to the server on local machine
@@ -23,7 +26,11 @@ def client():
     output = open('RESOLVED.txt','w')
     lines = file.readlines()
     for line in lines:
+        print("sending to rs")
         cs.send(line.encode())
-        data = cs.recv(1024)
-        output.write(data)
-        print(data)
+        #data = cs.recv(1024)
+        #output.write(data)
+        #print(data)
+
+if __name__ == '__main__':
+    client()
