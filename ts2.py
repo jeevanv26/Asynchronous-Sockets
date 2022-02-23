@@ -30,7 +30,7 @@ def ts2():
 
         index+=1
 
-    ts2_binding = ('', 50012)
+    ts2_binding = ('', sys.argv[1])
     ts2.bind(ts2_binding)
     ts2.listen(1)
     host = socket.gethostname()

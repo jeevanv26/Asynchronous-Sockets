@@ -13,8 +13,8 @@ def client():
         exit()
 
     # Define the port on which you want to connect to the server
-    port = 50021
-    host_addr = socket.gethostbyname(socket.gethostname()) #local host name
+    port = sys.argv[2]
+    host_addr = sys.argv[1] #local host name
 
     # connect to the server on local machine
     server_binding = (host_addr, port)

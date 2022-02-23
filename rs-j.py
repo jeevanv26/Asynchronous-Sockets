@@ -13,7 +13,7 @@ def server():
         exit()
 
 
-    server_binding = ('', 50021)
+    server_binding = ('', sys.argv[1])
     #rs.setblocking(0)
     rs.bind(server_binding)
     rs.listen(2)
@@ -28,12 +28,12 @@ def server():
     # Define the port on which you want to connect to the server
     TS1port = 50011
     TS1host_addr = socket.gethostbyname(socket.gethostname()) #local host name
-    TS1_binding = (TS1host_addr, TS1port)
+    TS1_binding = (sys.argv[2], sys.arv[3])
     ts1.connect(TS1_binding)
 
     TS2port = 50012
     TS2host_addr = socket.gethostbyname(socket.gethostname()) #local host name
-    TS2_binding = (TS2host_addr, TS2port)
+    TS2_binding = (sys.argv[4], sys.argv[5])
     ts2.connect(TS2_binding)
     sockets = [ts1, ts2]
 

@@ -31,7 +31,7 @@ def ts1():
         index+=1
 
 
-    ts1_binding = ('', 50011)
+    ts1_binding = ('', sys.argv[1])
     ts1.bind(ts1_binding)
     ts1.listen(1)
     host = socket.gethostname()
