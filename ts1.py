@@ -16,11 +16,11 @@ def ts1():
     ts1.bind(ts1_binding)
     ts1.listen(1)
     host = socket.gethostname()
-    print("[S]: Server host name is {}".format(host))
+    print("[TS2]: Server host name is {}".format(host))
     localhost_ip = (socket.gethostbyname(host))
-    print("[S]: Server IP address is {}".format(localhost_ip))
+    print("[TS2]: Server IP address is {}".format(localhost_ip))
     csockid, addr = ts1.accept()
-    print ("[S]: Got a connection request from a root at {}".format(addr))
+    print ("[TS2]: Got a connection request from a root at {}".format(addr))
 
     #populate dictionary with hostnames and ip addresses
     dictionary = dict()
@@ -35,9 +35,11 @@ def ts1():
         elif(index % 3 == 2 ):
             value = i;
         else:
-            dictionary[key] = value
+            dictionary[key] = key + value + i
 
+        index++;
 
+    
     #receive data from root server and send back ip if exists
     while(True):
         data = csockid.recv(1024)
