@@ -47,23 +47,15 @@ def server():
         ts2.send(data.encode())
         readable, writable, errors = select.select(sockets,[], [], 7)
         print(readable)
+        if not readable:
+            timeout = "TIMEOUT"
+            csockid.send(timeout)
         if readable:
             for r in readable:
                 if r is ts1:
                     csockid.send(ts1.recv(1024))
                 elif r is ts2:
                     csockid.send(ts2.recv(1024))
-
-        for s in errors:
-            # Stop listening for input on the connection
-            inputs.remove(s)
-            if s in outputs:
-                outputs.remove(s)
-            s.close()
-            timeout = "TIMEOUT"
-            csockid.send(timeout)
-            print('it should timeout')
-
 
 
 
