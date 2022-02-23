@@ -21,16 +21,16 @@ def client():
     cs.connect(server_binding)
 
     # Send file lines to the server
-    print("File")
     file = open('PROJ2-HNS.txt', 'r')
     output = open('RESOLVED.txt','w')
     lines = file.readlines()
     for line in lines:
-        print("sending to rs")
+        print("[C]: sending {} to rs".format(line.strip()))
         cs.send(line.strip().encode())
         data = cs.recv(1024)
         print(data)
         output.write(data)
+        output.write('\n')
 
 if __name__ == '__main__':
     client()

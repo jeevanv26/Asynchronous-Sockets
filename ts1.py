@@ -26,7 +26,7 @@ def ts1():
         elif(index % 3 == 2 ):
             value = i;
         else:
-            dictionary[key] = key + value + i
+            dictionary[key] = key + " " + value + " " + i
 
         index+=1
 

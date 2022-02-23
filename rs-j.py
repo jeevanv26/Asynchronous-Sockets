@@ -45,10 +45,9 @@ def server():
         print("[RS]: received data from client {}".format(data))
         ts1.send(data.encode())
         ts2.send(data.encode())
-        readable, writable, errors = select.select(sockets,[], [], 7)
-        print(readable)
+        readable, writable, errors = select.select(sockets,[], [], 5)
         if not readable:
-            timeout = "TIMEOUT"
+            timeout = data + "  -  TIMED OUT"
             csockid.send(timeout)
         if readable:
             for r in readable:

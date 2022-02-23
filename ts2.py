@@ -26,7 +26,7 @@ def ts2():
         elif(index % 3 == 2 ):
             value = i;
         else:
-            dictionary[key] = key + value + i
+            dictionary[key] = key + " " + value + " " + i + " IN"
 
         index+=1
 
@@ -51,7 +51,6 @@ def ts2():
         print("[TS2]: received data from root server")
 
         for key, value in dictionary.items():
-            print(key, value)
             if data == key:
                 csockid.send(value.encode('utf-8'))
 
