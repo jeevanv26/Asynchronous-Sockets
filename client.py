@@ -13,7 +13,7 @@ def client():
         exit()
 
     # Define the port on which you want to connect to the server
-    port = 50014
+    port = 50021
     host_addr = socket.gethostbyname(socket.gethostname()) #local host name
 
     # connect to the server on local machine
@@ -27,10 +27,10 @@ def client():
     lines = file.readlines()
     for line in lines:
         print("sending to rs")
-        cs.send(line.encode())
-        #data = cs.recv(1024)
-        #output.write(data)
-        #print(data)
+        cs.send(line.strip().encode())
+        data = cs.recv(1024)
+        print(data)
+        output.write(data)
 
 if __name__ == '__main__':
     client()
